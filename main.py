@@ -1,5 +1,8 @@
 import pandas as pd
 
+import requests
+from io import StringIO
+
 import plotly.express as px
 import plotly.graph_objects as go
 import seaborn as sns
@@ -182,7 +185,13 @@ def main(df):
     
 @st.cache
 def loadData():
-    return pd.read_csv("iris.csv")
+    orig_url = "https://drive.google.com/file/d/1qgGPtbVk7dUBZxF-Q-F_xP-jMmAh11pV/view?usp=sharing"
+    file_id = orig_url.split('/')[-2]
+    dwn_url='https://drive.google.com/uc?export=download&id=' + file_id
+    url = requests.get(dwn_url).text
+    csv_raw = StringIO(url)
+    dfs = pd.read_csv(csv_raw)
+    return dfs
     
 
 df = loadData()
