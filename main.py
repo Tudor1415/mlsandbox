@@ -193,8 +193,18 @@ if st.checkbox('Show dataframe'):
 
 st.subheader('Scatter plot')
 species = st.multiselect('Show iris per variety?', df['variety'].unique())
+if not species:
+    species = df['variety'].unique()
+
+
+
 col1 = st.selectbox('Which feature on x?', df.columns[0:4])
 col2 = st.selectbox('Which feature on y?', df.columns[0:4])
+
+if col1 == col2:
+    col1 = df.columns[1]
+    col2 = df.columns[0]
+
 new_df = df[(df['variety'].isin(species))]
 st.write(new_df)
 
